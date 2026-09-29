@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Lugn och fokuserad tentaträning för Samhällsanalys & Kommunikation, SA2023." />
+  <title>SA2023 · Tentaträning</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f1eb;
+      --surface: #fbfaf7;
+      --surface-2: #eeeae2;
+      --text: #252923;
+      --muted: #6d726a;
+      --line: #d8d4cb;
+      --accent: #435d52;
+      --accent-soft: #dfe8e2;
+      --good: #355a48;
+      --warn: #7c6443;
+      --shadow: 0 14px 38px rgba(44, 48, 41, .09);
+      --radius: 22px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171a18;
+        --surface: #202421;
+        --surface-2: #292e2a;
+        --text: #eceee9;
+        --muted: #aeb5ad;
+        --line: #363c37;
+        --accent: #a7c1b4;
+        --accent-soft: #2c3932;
+        --good: #a8c8b8;
+        --warn: #d0b88f;
+        --shadow: 0 16px 44px rgba(0,0,0,.25);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    button, select, textarea { font: inherit; }
+    button { color: inherit; }
+    .shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      padding: 28px 0 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: grid; place-items: center; background: var(--accent); color: var(--bg);
+      font-weight: 800; letter-spacing: -.04em;
+    }
+    h1 { font-size: clamp(1.1rem, 2vw, 1.35rem); margin: 0; letter-spacing: -.02em; }
+    .subtitle { color: var(--muted); font-size: .9rem; margin-top: 2px; }
+    .pill {
+      border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+      padding: 8px 12px; border-radius: 999px; font-size: .88rem;
+    }
+    .hero {
+      margin: 10px 0 20px;
+      padding: 22px 24px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero h2 { margin: 0 0 6px; font-size: clamp(1.3rem, 3vw, 2rem); letter-spacing: -.035em; }
+    .hero p { margin: 0; color: var(--muted); max-width: 740px; }
+    .toolbar {
+      display: grid; grid-template-columns: 1fr auto auto; gap: 10px;
+      margin: 16px 0;
+    }
+    select, .ghost, .primary {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 13px;
+      padding: 10px 12px;
+    }
+    select { min-width: 0; color: var(--text); }
+    .ghost, .primary { cursor: pointer; transition: .18s ease; }
+    .ghost:hover, .primary:hover { transform: translateY(-1px); }
+    .primary { background: var(--accent); color: #fff; border-color: transparent; }
+    @media (prefers-color-scheme: dark) {
+      .primary { color: #152019; }
+    }
+    .stats {
+      display: flex; gap: 8px; flex-wrap: wrap; color: var(--muted); font-size: .88rem; margin-bottom: 14px;
+    }
+    .stat {
+      background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px;
+    }
+    .study-grid {
+      display: grid; grid-template-columns: 58px minmax(0,1fr) 58px; align-items: center; gap: 14px;
+    }
+    .nav-btn {
+      border: 1px solid var(--line); background: var(--surface); width: 52px; height: 52px;
+      border-radius: 50%; cursor: pointer; display:grid; place-items:center; font-size:1.35rem;
+      box-shadow: 0 8px 22px rgba(0,0,0,.05); transition:.18s ease;
+    }
+    .nav-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card-wrap { perspective: 1200px; min-height: 360px; }
+    .card {
+      position: relative; width: 100%; min-height: 360px;
+      transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.7,.2,1);
+      cursor: pointer;
+    }
+    .card.flipped { transform: rotateY(180deg); }
+    .face {
+      position:absolute; inset:0; backface-visibility:hidden;
+      border:1px solid var(--line); background:var(--surface); border-radius:var(--radius);
+      padding: 32px; box-shadow:var(--shadow); display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .back { transform: rotateY(180deg); background: color-mix(in srgb, var(--surface) 88%, var(--accent-soft)); }
+    .eyebrow {
+      color: var(--accent); font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .question {
+      font-size: clamp(1.4rem, 3.5vw, 2.25rem); line-height: 1.22; letter-spacing: -.035em;
+      margin: 28px 0; max-width: 900px;
+    }
+    .answer { font-size: clamp(1.08rem, 2.1vw, 1.35rem); line-height:1.55; margin: 22px 0; max-width:900px; }
+    .hint { color:var(--muted); font-size:.92rem; }
+    .flip-note { color:var(--muted); font-size:.85rem; text-align:right; }
+    .mode-tabs {
+      margin-top: 18px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+    }
+    .mode-tabs button {
+      border:1px solid var(--line); background:var(--surface); padding:9px 13px; border-radius:999px; cursor:pointer;
+    }
+    .mode-tabs button.active { background:var(--accent-soft); border-color:var(--accent); }
+    .write-panel {
+      margin: 18px auto 0; max-width: 940px; border:1px solid var(--line); background:var(--surface);
+      border-radius:var(--radius); padding:20px; display:none;
+    }
+    .write-panel.open { display:block; }
+    .write-panel label { display:block; font-weight:700; margin-bottom:8px; }
+    textarea {
+      width:100%; min-height:130px; resize:vertical; border:1px solid var(--line); border-radius:14px;
+      padding:14px; background:var(--bg); color:var(--text); outline:none;
+    }
+    textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+    .write-actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; }
+    .model-answer {
+      display:none; margin-top:14px; padding:14px 16px; border-radius:14px; background:var(--surface-2);
+      border-left:3px solid var(--accent);
+    }
+    .model-answer.open { display:block; }
+    .grade-row {
+      display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:16px 0 4px;
+    }
+    .grade-row button {
+      border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:9px 12px; cursor:pointer;
+    }
+    .grade-row button:hover { border-color:var(--accent); }
+    .kbd { border:1px solid var(--line); border-bottom-width:2px; border-radius:6px; padding:1px 6px; font-size:.75rem; color:var(--muted); }
+    .progress {
+      height:5px; background:var(--surface-2); border-radius:99px; overflow:hidden; margin:16px 0 8px;
+    }
+    .progress > span { display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease; }
+    footer {
+      color:var(--muted); font-size:.82rem; text-align:center; padding:28px 0 36px;
+    }
+    .source-note { max-width:760px; margin:0 auto; }
+    @media (max-width: 720px) {
+      .shell { width:min(100% - 20px, 1120px); }
+      header { padding-top:18px; }
+      .pill { display:none; }
+      .hero { padding:18px; }
+      .toolbar { grid-template-columns:1fr 1fr; }
+      .toolbar select { grid-column:1 / -1; }
+      .study-grid { grid-template-columns: 44px minmax(0,1fr) 44px; gap:7px; }
+      .nav-btn { width:42px; height:42px; }
+      .card-wrap, .card { min-height:420px; }
+      .face { padding:22px; }
+      .question { margin:20px 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior:auto!important; transition:none!important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <div class="mark">SA</div>
+        <div>
+          <h1>Samhällsanalys · Tentaträning</h1>
+          <div class="subtitle">SA2023 · byggd för fokuserad repetition</div>
+        </div>
+      </div>
+      <div class="pill">sparar framsteg lokalt</div>
+    </header>
+
+    <section class="hero">
+      <h2>En fråga i taget.</h2>
+      <p>Vänd kortet när du vill kontrollera svaret, skriv ett eget kortsvar eller filtrera fram den del av kursen du vill nöta. Frågorna är byggda från dina anteckningar och mönstren i tidigare salstentor.</p>
+    </section>
+
+    <div class="toolbar">
+      <select id="category" aria-label="Välj område"></select>
+      <button class="ghost" id="shuffleBtn">Blanda</button>
+      <button class="ghost" id="resetBtn">Nollställ</button>
+    </div>
+
+    <div class="stats">
+      <span class="stat" id="countStat"></span>
+      <span class="stat" id="knownStat"></span>
+      <span class="stat" id="repeatStat"></span>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+
+    <div class="study-grid">
+      <button class="nav-btn" id="prevBtn" aria-label="Föregående fråga">←</button>
+
+      <div class="card-wrap">
+        <article class="card" id="flashcard" tabindex="0" aria-label="Flashcard. Klicka för att vända.">
+          <section class="face front">
+            <div>
+              <div class="eyebrow" id="frontCat"></div>
+              <div class="question" id="question"></div>
+              <div class="hint" id="hint"></div>
+            </div>
+            <div class="flip-note">Klicka för svar · <span class="kbd">Space</span></div>
+          </section>
+          <section class="face back">
+            <div>
+              <div class="eyebrow">Svar</div>
+              <div class="answer" id="answer"></div>
+            </div>
+            <div class="flip-note">Klicka för fråga · <span class="kbd">Space</span></div>
+          </section>
+        </article>
+      </div>
+
+      <button class="nav-btn" id="nextBtn" aria-label="Nästa fråga">→</button>
+    </div>
+
+    <div class="mode-tabs">
+      <button id="writeToggle">Skriv kortsvar</button>
+      <button id="examOnly">Tentastil</button>
+    </div>
+
+    <section class="write-panel" id="writePanel">
+      <label for="userAnswer">Ditt kortsvar</label>
+      <textarea id="userAnswer" placeholder="Svara med egna ord innan du visar modellsvaret..."></textarea>
+      <div class="write-actions">
+        <span class="hint">Ditt svar ligger kvar på den här enheten.</span>
+        <button class="primary" id="showModel">Visa modellsvaret</button>
+      </div>
+      <div class="model-answer" id="modelAnswer"></div>
+    </section>
+
+    <div class="grade-row">
+      <button data-grade="repeat">↺ Repetera</button>
+      <button data-grade="almost">≈ Nästan</button>
+      <button data-grade="known">✓ Kan</button>
+    </div>
+
+    <footer>
+      <div class="source-note">Tips: använd <span class="kbd">←</span>/<span class="kbd">→</span> för att byta kort och <span class="kbd">Space</span> för att vända. Sajten använder inga externa bibliotek och fungerar direkt på GitHub Pages.</div>
+    </footer>
+  </div>
+
+<script>
+const ALL = [{"cat": "Statsvetenskap & vetenskapsteori", "q": "Vilka tre sätt att förstå politik tas upp i dina anteckningar?", "a": "1) Politik som idéer och beteenden kring offentliga institutioner. 2) Politik som auktoritativ fördelning av resurser/värden. 3) Politik som erövrande och utövande av makt.", "hint": "Tänk: institutioner – fördelning – makt."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vad är ontologi?", "a": "Ontologi handlar om verklighetens natur – vad som finns och om verkligheten existerar oberoende av människan eller är socialt konstruerad.", "hint": "Frågan kan sammanfattas som: Vad finns?"}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Hur skiljer sig realism och relativism i ontologin enligt anteckningarna?", "a": "Realism utgår från att exempelvis makt och politiska förhållanden finns oberoende av våra uppfattningar. Relativism betonar att verkligheten formas eller konstrueras genom människors tolkningar och accepterande.", "hint": "Oberoende verklighet kontra konstruerad verklighet."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vad är epistemologi?", "a": "Epistemologi eller kunskapsteori handlar om hur vi kan nå kunskap om verkligheten – hur vi vet det vi påstår oss veta.", "hint": "Frågan kan sammanfattas som: Hur vet vi?"}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Hur skiljer sig objektivism och subjektivism i dina anteckningar?", "a": "Objektivism strävar efter en så objektiv och korrekt bild av verkligheten som möjligt. Subjektivism betonar att forskarens förförståelse, erfarenheter och värderingar påverkar hur verkligheten förstås.", "hint": "Objektiv kunskap kontra tolkning och förförståelse."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vad är positivismens huvudmål?", "a": "Att förklara verkligheten med så säker och objektiv kunskap som möjligt, ofta genom observation, logik, mätning och fokus på orsak och verkan.", "hint": "Förklara, observera, mäta."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vilka två källor till kunskap lyfter dina anteckningar fram inom positivismen?", "a": "Observation med hjälp av sinnena samt slutsatser genom logikens regler.", "hint": "Sinnen + logik."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vad försöker hermeneutiken göra?", "a": "Hermeneutiken försöker förstå och tolka mening i sitt sammanhang. Förförståelse, inlevelse och tolkning får därför en viktig roll.", "hint": "Förstå snarare än förklara."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vilka metoder nämns i anteckningarna som typiska för ett hermeneutiskt arbetssätt?", "a": "Djupintervjuer, introspektion och olika former av texttolkning.", "hint": "Metoder som går på djupet."}, {"cat": "Statsvetenskap & vetenskapsteori", "q": "Vad är den kortaste skillnaden mellan positivism och hermeneutik i dina anteckningar?", "a": "Positivismen försöker förklara politiken medan hermeneutiken försöker förstå den.", "hint": "Förklara kontra förstå."}, {"cat": "Makt", "q": "Hur definieras beslutande makt i anteckningarna?", "a": "A får B att göra något som B annars inte hade gjort.", "hint": "A påverkar B:s faktiska handling."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad är den viktigaste utgångspunkten under perioden 'Staden'?", "a": "Samhället och den politiska gemenskapen står i centrum. Det gemensamma bästa väger tyngre än den enskilda individen.", "hint": "Kollektivet före individen."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad förknippas sofisterna med i anteckningarna?", "a": "Relativism och retorik. Det finns inte nödvändigtvis absoluta svar; uppfattningar kan bero på situation, kultur och individ.", "hint": "Relativism + talekonst."}, {"cat": "Politiskt tänkande – Staden", "q": "Hur delar Platon in den ideala staten i dina anteckningar?", "a": "Filosofer styr, väktare skyddar och näringsidkare/hantverkare/bönder producerar.", "hint": "Tre grupper med olika funktioner."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad är skillnaden mellan Platons sinnevärld och idévärld?", "a": "Sinnevärlden är föränderlig och empirisk. Idévärlden är oföränderlig och objektiv.", "hint": "Föränderlig kontra oföränderlig."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad menar Aristoteles med att människan är en politisk varelse?", "a": "Människan behöver leva tillsammans med andra i ett samhälle. Staten finns inte bara för överlevnad utan för att möjliggöra ett gott och dygdigt liv.", "hint": "Människan hör hemma i en politisk gemenskap."}, {"cat": "Politiskt tänkande – Staden", "q": "Vilka styrelseskick räknar Aristoteles som goda enligt anteckningarna?", "a": "Monarki, aristokrati och politeia – om de styr för allmänhetens bästa.", "hint": "En, få, många – när de styr för det gemensamma bästa."}, {"cat": "Politiskt tänkande – Staden", "q": "Vilka styrelseskick är de dåliga motsvarigheterna hos Aristoteles?", "a": "Tyranni, oligarki och den form av demokrati som enligt Aristoteles styr för majoritetens egenintresse.", "hint": "Egen vinning i stället för allmänhetens bästa."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad var kärnan i Polybius syn på Roms styrka?", "a": "Makten var uppdelad mellan olika delar som balanserade och var beroende av varandra, vilket motverkade att en aktör fick all makt.", "hint": "Maktdelning och balans."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad är centralt i Machiavellis 'Fursten'?", "a": "Hur en härskare skaffar, behåller och stärker politisk makt i praktiken. Ledaren måste kunna anpassa sig efter situationen och behöver inte alltid följa moraliska ideal.", "hint": "Praktisk makt snarare än idealpolitik."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad betyder virtù och fortuna hos Machiavelli enligt anteckningarna?", "a": "Virtù är härskarens handlingskraft, styrka och anpassningsförmåga. Fortuna är sådant som ligger utanför härskarens kontroll – ödet eller omständigheterna.", "hint": "Förmåga kontra sådant man inte styr över."}, {"cat": "Politiskt tänkande – Staden", "q": "Vad innebär Jean Bodins suveränitetsteori i dina anteckningar?", "a": "Den suveräna makten ska vara samlad och odelad. Bodin förknippas i anteckningarna med en stark kungamakt.", "hint": "Suveränitet = högsta, samlad makt."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vad förändras från 'Staden' till 'Kontraktet'?", "a": "Fokus flyttas från den politiska gemenskapen till individen, hennes rättigheter och frågan om när statens makt är legitim.", "hint": "Från kollektiv till individ."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vad är naturliga rättigheter?", "a": "Rättigheter människan anses ha i kraft av att vara människa, inte därför att staten har gett dem.", "hint": "Rättigheter före staten."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Hur ser Hobbes naturtillstånd ut?", "a": "Det saknar en gemensam överordnad makt och gemensam rättsordning. Människor har stor frihet men liten säkerhet, vilket skapar misstro och konflikt.", "hint": "Mycket frihet, lite trygghet."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Varför ingår människor samhällskontraktet enligt Hobbes?", "a": "De avstår en del frihet för att få säkerhet och ordning. Makten överlåts till en suverän som kan upprätthålla kontraktet.", "hint": "Frihet byts mot skydd."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vilka tre naturliga rättigheter har människan hos Locke enligt anteckningarna?", "a": "Liv, frihet och egendom.", "hint": "Tre klassiska rättigheter."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Varför behövs staten enligt Locke?", "a": "För att det i naturtillståndet saknas en gemensam och opartisk makt som kan skydda rättigheterna och avgöra konflikter.", "hint": "Skydda rättigheter och lösa tvister."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "När finns en rätt till motstånd hos Locke?", "a": "När makthavarna angriper de naturliga rättigheter som staten är satt att skydda.", "hint": "När staten bryter sitt uppdrag."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Hur skiljer sig Rousseaus naturtillstånd från Hobbes?", "a": "Rousseau beskriver människan som relativt fredlig, självständig och enkel i sina behov, medan Hobbes betonar osäkerhet, misstro och konflikt utan en gemensam makt.", "hint": "Fredligare hos Rousseau."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vad händer enligt Rousseau när privategendom och samhällstillstånd utvecklas?", "a": "Ojämlikhet, beroende, konkurrens och statusjakt ökar.", "hint": "Egendom förändrar relationerna mellan människor."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vad är Rousseaus allmänvilja?", "a": "En vilja inriktad på det gemensamma bästa snarare än summan av enskilda privata viljor. Den uttrycks genom lagstiftning.", "hint": "Gemensamt bästa, inte bara privata intressen."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vilka tre maktfunktioner skiljer Montesquieu mellan?", "a": "Verkställande, lagstiftande och dömande makt.", "hint": "Regering – parlament – domstol."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vilka tre styrelseskick nämner Montesquieu i dina anteckningar?", "a": "Republik, monarki och despotism.", "hint": "Republik kan vara demokratisk eller aristokratisk."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vad kritiserade Adam Smith inom merkantilismen?", "a": "Tullar, monopol, koloniala handelsordningar och tanken på handel som ett nollsummespel.", "hint": "Handelshinder och monopol."}, {"cat": "Politiskt tänkande – Kontraktet", "q": "Vilka uppgifter för staten lyfts fram hos Adam Smith i dina anteckningar?", "a": "Bland annat utbildning, infrastruktur och att underlätta handel.", "hint": "Staten försvinner inte helt."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad kännetecknar perioden 'Projektet'?", "a": "Politiken ses som ett redskap för utveckling och samhällsförändring. Reformprojekt och föreställningar om ett framtida bättre samhälle blir centrala.", "hint": "Politik används för att förändra samhället."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad ville William Godwin förändra?", "a": "Han trodde på långtgående reformer, nedmontering av statliga institutioner och omfördelning av egendom för att nå ett friare och mer jämlikt samhälle.", "hint": "Mot ett mer anarkiskt framtidssamhälle."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad är Benthams utilitarism?", "a": "Politik och reformer ska bedömas efter vilken nytta de skapar. Målet är att maximera lycka/nytta och minska lidande.", "hint": "Största möjliga nytta."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad förkastade Bentham enligt anteckningarna?", "a": "Samhällskontraktet och naturrätten som abstrakta föreställningar utan konkreta bevis.", "hint": "Han kallade naturrätten 'nonsens på styltor'."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad är centralt i Kants idé om 'den eviga freden' enligt anteckningarna?", "a": "En fredsordning byggd på republiker och någon form av federation mellan stater.", "hint": "Republiker + federation."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad driver historisk utveckling hos Hegel enligt anteckningarna?", "a": "Idéer och en dialektisk process, bland annat kampen om erkännande mellan herre och slav.", "hint": "Idealism och dialektik."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad är Marx historiematerialistiska utgångspunkt?", "a": "Materiella produktionsförhållanden och kampen om kontrollen över produktionen är centrala för samhällsutvecklingen.", "hint": "Materiella förhållanden före idéer."}, {"cat": "Politiskt tänkande – Projektet", "q": "Vad menas med falskt medvetande i dina Marx-anteckningar?", "a": "Att den ekonomiskt dominerande klassen också kan påverka hur arbetare tänker och vilka idéer som uppfattas som självklara eller legitima.", "hint": "Makt över idéer och tankar."}, {"cat": "Politiskt tänkande – Projektet", "q": "Hur ser Edmund Burke på samhällsförändring?", "a": "Förändring bör ske gradvis och bygga på historiska erfarenheter och traditioner, snarare än snabba och oprövade omvälvningar.", "hint": "Reform framför revolution."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad kännetecknar statsvetenskapen under stora delar av 1900-talet enligt anteckningarna?", "a": "Positivismen dominerar ungefär 1930–1970 och fokus läggs på empiriska, mätbara och verifierbara frågor snarare än normativ teori.", "hint": "Empiri och mätbarhet."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad menar Pareto om eliter?", "a": "Folket styr inte direkt; en liten politisk och administrativ elit styr. Historien kan ses som en kamp och cirkulation mellan konkurrerande eliter.", "hint": "Eliter byter plats men försvinner inte."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad är Michels 'oligarkins järnlag'?", "a": "Organisationer tenderar att utveckla en liten ledande elit, även om de formellt är demokratiska.", "hint": "Organisation → ledarskikt."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Hur definierar Carl Schmitt politik i dina anteckningar?", "a": "Genom distinktionen vän och fiende – politik förstås som konflikt mellan 'vi' och 'dem'.", "hint": "Vän–fiende."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad är Rawls 'okunnighetens slöja'?", "a": "En tänkt valsituation där ingen vet vilken position, förmåga eller socioekonomisk ställning hon själv kommer att få. Därigenom ska slumpmässiga fördelar inte styra rättviseprinciperna.", "hint": "Du väljer regler utan att veta vem du själv blir."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vilka två rättviseprinciper lyfts fram hos Rawls i anteckningarna?", "a": "Frihetsprincipen och differensprincipen. Ojämlikhet kan accepteras om den också gynnar de sämst ställda.", "hint": "Frihet + de sämst ställda."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad innebär Rawls maximinprincip?", "a": "Att välja det alternativ där det sämsta möjliga utfallet är så bra som möjligt.", "hint": "Maximera minimum."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad är Nozicks minimala stat?", "a": "En stat som främst skyddar liv, frihet och egendom genom försvar, polis och rättsväsende. Mer omfattande statliga uppgifter ses som illegitima i anteckningarnas framställning.", "hint": "Försvar, polis, domstol."}, {"cat": "Politiskt tänkande – 1900-talet", "q": "Vad betonar kommunitarismen?", "a": "Människan formas av gemenskaper. Samhälle, kultur, moral och gemensamma värden får större betydelse än i individualistiska teorier.", "hint": "Gemenskap före den helt fristående individen."}, {"cat": "Ideologier – Konservatism", "q": "Vad är konservatismens viktigaste källa till normer enligt anteckningarna?", "a": "Historien samt nationens politiska och kulturella traditioner.", "hint": "Det historiskt beprövade."}, {"cat": "Ideologier – Konservatism", "q": "Hur ser konservatismen på människan enligt anteckningarna?", "a": "Människan är varken fullkomligt god eller ond och kan inte göras fullkomlig. Människor är också olika i egenskaper och förmågor.", "hint": "Skepsis mot tanken om den perfekta människan."}, {"cat": "Ideologier – Konservatism", "q": "Vilka samhällsenheter betonas särskilt i konservatismen?", "a": "Nationen, familjen och historiskt framvuxna institutioner.", "hint": "Gemenskaper med kontinuitet."}, {"cat": "Ideologier – Konservatism", "q": "Hur ser konservatismen på samhällsförändring?", "a": "Förändring bör ske gradvis och försiktigt. Revolutioner och snabba, oprövade förändringar möts med skepsis.", "hint": "Stegvis reform."}, {"cat": "Ideologier – Konservatism", "q": "Är konservatismen historiskt knuten till en enda bestämd styrelseform?", "a": "Nej. Anteckningarna betonar att konservatismen historiskt inte varit bunden till en enda styrelseform och att demokratin länge kunde accepteras av pragmatiska skäl.", "hint": "Ingen enda tidlös styrelseform."}, {"cat": "Ideologier – Liberalism", "q": "Vad är liberalismens centrala grundvärde?", "a": "Individuell frihet.", "hint": "Individen står i centrum."}, {"cat": "Ideologier – Liberalism", "q": "Vilken är liberalismens viktigaste enhet i samhället?", "a": "Individen.", "hint": "Det återkommer uttryckligen i anteckningarna."}, {"cat": "Ideologier – Liberalism", "q": "Vilka rättigheter och institutioner kopplas till liberalismen i anteckningarna?", "a": "Individuella rättigheter, rättsstat, yttrandefrihet, religionsfrihet, äganderätt, rättssäkerhet och begränsad politisk makt.", "hint": "Rättigheter som begränsar staten."}, {"cat": "Ideologier – Liberalism", "q": "Hur skiljer sig klassisk liberalism och socialliberalism i synen på staten?", "a": "Klassisk liberalism betonar begränsade statliga ingrepp och negativ frihet. Socialliberalism accepterar större statliga insatser, exempelvis utbildning och social trygghet, för att skapa faktiska möjligheter.", "hint": "Negativ frihet kontra även faktiska möjligheter."}, {"cat": "Ideologier – Liberalism", "q": "Hur ser liberalismen på ekonomisk organisation?", "a": "Privat ägande och marknadsekonomi är centrala. Hur stor statlig roll som accepteras varierar mellan liberala riktningar.", "hint": "Marknadsekonomi, men olika syn på reglering."}, {"cat": "Ideologier – Marxism–leninism", "q": "Vad är marxism–leninismens grundproblem med kapitalismen enligt anteckningarna?", "a": "Klassamhället och ekonomisk exploatering. Bourgeoisien äger produktionsmedlen medan proletariatet säljer sin arbetskraft.", "hint": "Klasskonflikt."}, {"cat": "Ideologier – Marxism–leninism", "q": "Vilken är den viktigaste samhälleliga enheten i marxismen?", "a": "Klassen. I marxism–leninismen får dessutom det revolutionära kommunistpartiet en central roll.", "hint": "Klass + parti."}, {"cat": "Ideologier – Marxism–leninism", "q": "Vilken roll har avantgardepartiet i marxism–leninismen?", "a": "Det ska organisera och leda arbetarklassen i revolutionen och uppbyggnaden av det socialistiska samhället.", "hint": "Politisk ledning för arbetarklassen."}, {"cat": "Ideologier – Marxism–leninism", "q": "Hur ska samhällsförändringen ske i marxism–leninismen?", "a": "Den kapitalistiska samhällsordningen ska ersättas genom revolution snarare än bara reformeras.", "hint": "Revolution."}, {"cat": "Ideologier – Marxism–leninism", "q": "Hur organiseras ekonomin i marxism–leninismen enligt anteckningarna?", "a": "Privat ägande av centrala produktionsmedel avskaffas. I den socialistiska övergången organiseras produktionen kollektivt; historiskt ofta genom statligt ägande och central planering.", "hint": "Kollektiviserade produktionsmedel."}, {"cat": "Ideologier – Marxism–leninism", "q": "Vad är marxism–leninismens slutliga mål?", "a": "Ett klasslöst kommunistiskt samhälle där behovet av staten på längre sikt ska försvinna.", "hint": "Klasslöst samhälle och statens bortvittrande."}, {"cat": "Ideologier – Nazism", "q": "Vilka centrala drag tillskriver anteckningarna nazismen?", "a": "Extrem nationalism, raslära, antisemitism, antidemokrati och ledarprincipen.", "hint": "Rasligt definierad folkgemenskap + diktatoriskt ledarskap."}, {"cat": "Ideologier – Nazism", "q": "Vad är Volksgemeinschaft i nazismen?", "a": "Den rasligt definierade folkgemenskap som ställdes över individen och samtidigt uteslöt grupper som nazismen klassificerade som främmande eller underlägsna.", "hint": "Exkluderande folkgemenskap."}, {"cat": "Ideologier – Nazism", "q": "Hur organiserades den nazistiska staten enligt anteckningarna?", "a": "Antidemokratiskt enligt Führerprincipen, med auktoritet uppifrån och ned och ett enpartisystem efter 1933.", "hint": "Ledarprincipen."}, {"cat": "Ideologier – Nazism", "q": "Hur såg nazismen på privat ägande och ekonomi?", "a": "Privat ägande avskaffades inte på samma sätt som i marxism–leninismen, men ekonomin underställdes i hög grad regimens politiska, militära och rasideologiska mål.", "hint": "Privat ägande kunde finnas kvar, men under regimens mål."}, {"cat": "Ideologier – Nationalism", "q": "Vad är nationalismens kärna enligt anteckningarna?", "a": "Nationen och dess politiska betydelse, särskilt någon form av nationellt självbestämmande.", "hint": "Nationen."}, {"cat": "Ideologier – Nationalism", "q": "Föreskriver nationalism en bestämd styrelseform eller ekonomisk modell?", "a": "Nej. Nationalism kan kombineras med olika styrelseformer och ekonomiska idéer. Det beror på vilken annan ideologi eller nationalistisk riktning den kombineras med.", "hint": "Nationalism kan kombineras med annat."}, {"cat": "Ideologier – Feminism", "q": "Vilket grundkrav lyfts fram inom feminismen i anteckningarna?", "a": "Jämlikhet och frigörelse – att kvinnor och män ska betraktas som jämlika.", "hint": "Jämlikhet + frigörelse."}, {"cat": "Tentastil", "q": "Jämför perioderna Staden och Kontraktet utifrån synen på politik och rättigheter.", "a": "Ett koncentrerat svar bör visa att Staden utgår från den politiska gemenskapen, dygden och det gemensamma bästa, medan Kontraktet flyttar fokus till individen, naturliga rättigheter och frågan om varför statlig makt är legitim. Likheten är att båda försöker förklara hur politisk ordning kan rättfärdigas, men de gör det från olika utgångspunkter.", "hint": "Strukturera: politik – rättigheter – likhet – skillnad."}, {"cat": "Tentastil", "q": "Jämför två tänkare från perioden Kontraktet och förklara deras viktigaste skillnad.", "a": "Exempel: Hobbes och Locke. Båda utgår från naturtillstånd och samhällskontrakt. Hobbes betonar osäkerhet och behovet av en stark suverän för fred och ordning. Locke ser naturtillståndet som mindre konfliktfyllt och låter staten främst skydda liv, frihet och egendom; om staten kränker rättigheterna finns rätt till motstånd.", "hint": "Börja med likheten, gå sedan till människosyn, statens syfte och rättigheter."}, {"cat": "Tentastil", "q": "Redogör för positivism och hermeneutik och formulera en statsvetenskaplig forskningsfråga för vardera.", "a": "Positivism söker förklaring, observation, mätning och orsakssamband. Exempel: 'Finns ett samband mellan utbildningsnivå och valdeltagande?' Hermeneutik söker förstå mening och tolkning i sitt sammanhang. Exempel: 'Hur beskriver förstagångsväljare betydelsen av politiska budskap i sociala medier?'", "hint": "Förklara teori → ge en fråga som passar metoden."}, {"cat": "Tentastil", "q": "Jämför liberalism och marxism–leninism systematiskt.", "a": "Liberalismen utgår från individens frihet, rättigheter, begränsad makt och marknadsekonomi. Marxism–leninismen utgår från klasskonflikt, revolution, proletariatets diktatur/avantgardeparti och kollektiviserade produktionsmedel, med ett klasslöst samhälle som slutmål. En systematisk jämförelse kan göras efter grundvärden, samhällsenhet, förändringsmetod, politisk organisation, ekonomi och idealbild.", "hint": "Använd samma rubriker för båda ideologierna."}, {"cat": "Tentastil", "q": "Jämför liberalism och konservatism i synen på individ, samhälle och förändring.", "a": "Liberalismen tar individen och hennes frihet/rättigheter som utgångspunkt och accepterar reformer för att undanröja hinder. Konservatismen lägger större vikt vid nation, familj och historiska institutioner samt vill att förändring sker gradvis utifrån erfarenhet och tradition.", "hint": "Individ kontra historiskt framvuxna gemenskaper."}, {"cat": "Tentastil", "q": "Förklara varför Rawls och Nozick hamnar i konflikt om statens roll.", "a": "Rawls accepterar institutioner och omfördelning som kan förbättra situationen för de sämst ställda, medan Nozick försvarar en minimal stat vars huvuduppgift är att skydda liv, frihet och egendom. Skillnaden gäller hur långt staten legitimt får gå för att skapa rättvisa.", "hint": "Omfördelning kontra minimal stat."}, {"cat": "Tentastil", "q": "Jämför konservatism, liberalism och marxism–leninism utifrån deras viktigaste samhällsenhet.", "a": "Liberalism: individen. Konservatism: nationen, familjen och historiska institutioner. Marxism–leninism: klassen samt det revolutionära partiet.", "hint": "Individ – gemenskap – klass."}, {"cat": "Tentastil", "q": "Hur skulle du bygga upp ett tvåsidigt tentasvar när du jämför två politiska perioder eller ideologier?", "a": "1) Definiera vad som jämförs. 2) Använd samma jämförelsepunkter för båda. 3) Redogör först sakligt. 4) Skriv tydliga likheter och skillnader. 5) Avsluta med en kort sammanvägd jämförelse. Undvik att bara rada upp fakta om A och sedan B utan att faktiskt jämföra.", "hint": "Samma kriterier + tydlig jämförelse."}];
+let deck = [...ALL];
+let index = 0;
+let currentCategory = "Alla";
+let flipped = false;
+
+const $ = (id) => document.getElementById(id);
+const category = $("category");
+const flashcard = $("flashcard");
+const question = $("question");
+const answer = $("answer");
+const hint = $("hint");
+const frontCat = $("frontCat");
+const userAnswer = $("userAnswer");
+const modelAnswer = $("modelAnswer");
+
+const saved = JSON.parse(localStorage.getItem("sa2023-progress") || "{}");
+const drafts = JSON.parse(localStorage.getItem("sa2023-drafts") || "{}");
+
+function keyFor(card) { return card.cat + "||" + card.q; }
+
+function categories() {
+  return ["Alla", ...new Set(ALL.map(c => c.cat))];
+}
+
+function populateCategories() {
+  category.innerHTML = categories().map(c => `<option value="${c}">${c}</option>`).join("");
+}
+
+function filteredDeck(cat) {
+  return cat === "Alla" ? [...ALL] : ALL.filter(c => c.cat === cat);
+}
+
+function render() {
+  if (!deck.length) return;
+  index = (index + deck.length) % deck.length;
+  const card = deck[index];
+  flashcard.classList.remove("flipped");
+  flipped = false;
+  frontCat.textContent = card.cat;
+  question.textContent = card.q;
+  answer.textContent = card.a;
+  hint.textContent = card.hint ? "Ledtråd: " + card.hint : "";
+  modelAnswer.textContent = card.a;
+  modelAnswer.classList.remove("open");
+  userAnswer.value = drafts[keyFor(card)] || "";
+  $("countStat").textContent = `${index + 1} / ${deck.length}`;
+  updateStats();
+  $("progressBar").style.width = `${((index + 1) / deck.length) * 100}%`;
+}
+
+function updateStats() {
+  const vals = Object.values(saved);
+  $("knownStat").textContent = `Kan: ${vals.filter(v => v === "known").length}`;
+  $("repeatStat").textContent = `Repetera: ${vals.filter(v => v === "repeat").length}`;
+}
+
+function move(delta) {
+  saveDraft();
+  index += delta;
+  render();
+}
+
+function saveDraft() {
+  if (!deck.length) return;
+  const k = keyFor(deck[index]);
+  if (userAnswer.value.trim()) drafts[k] = userAnswer.value;
+  else delete drafts[k];
+  localStorage.setItem("sa2023-drafts", JSON.stringify(drafts));
+}
+
+function toggleFlip() {
+  flipped = !flipped;
+  flashcard.classList.toggle("flipped", flipped);
+}
+
+flashcard.addEventListener("click", toggleFlip);
+flashcard.addEventListener("keydown", (e) => {
+  if (e.code === "Space" || e.code === "Enter") {
+    e.preventDefault();
+    toggleFlip();
+  }
+});
+
+$("prevBtn").addEventListener("click", () => move(-1));
+$("nextBtn").addEventListener("click", () => move(1));
+
+category.addEventListener("change", () => {
+  saveDraft();
+  currentCategory = category.value;
+  deck = filteredDeck(currentCategory);
+  index = 0;
+  render();
+});
+
+$("shuffleBtn").addEventListener("click", () => {
+  saveDraft();
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  index = 0;
+  render();
+});
+
+$("resetBtn").addEventListener("click", () => {
+  if (!confirm("Nollställa markerade framsteg och sparade kortsvar?")) return;
+  Object.keys(saved).forEach(k => delete saved[k]);
+  Object.keys(drafts).forEach(k => delete drafts[k]);
+  localStorage.removeItem("sa2023-progress");
+  localStorage.removeItem("sa2023-drafts");
+  userAnswer.value = "";
+  updateStats();
+});
+
+$("writeToggle").addEventListener("click", () => {
+  $("writePanel").classList.toggle("open");
+  $("writeToggle").classList.toggle("active");
+  if ($("writePanel").classList.contains("open")) userAnswer.focus();
+});
+
+$("showModel").addEventListener("click", () => {
+  saveDraft();
+  modelAnswer.classList.toggle("open");
+  $("showModel").textContent = modelAnswer.classList.contains("open") ? "Dölj modellsvaret" : "Visa modellsvaret";
+});
+
+$("examOnly").addEventListener("click", () => {
+  saveDraft();
+  const active = $("examOnly").classList.toggle("active");
+  if (active) {
+    currentCategory = "Tentastil";
+    category.value = "Tentastil";
+  } else {
+    currentCategory = "Alla";
+    category.value = "Alla";
+  }
+  deck = filteredDeck(currentCategory);
+  index = 0;
+  render();
+});
+
+document.querySelectorAll("[data-grade]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const card = deck[index];
+    saved[keyFor(card)] = btn.dataset.grade;
+    localStorage.setItem("sa2023-progress", JSON.stringify(saved));
+    updateStats();
+    setTimeout(() => move(1), 120);
+  });
+});
+
+userAnswer.addEventListener("input", () => {
+  clearTimeout(window.__saveTimer);
+  window.__saveTimer = setTimeout(saveDraft, 250);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (document.activeElement === userAnswer) return;
+  if (e.key === "ArrowLeft") move(-1);
+  if (e.key === "ArrowRight") move(1);
+  if (e.code === "Space") {
+    e.preventDefault();
+    toggleFlip();
+  }
+});
+
+populateCategories();
+render();
+</script>
+</body>
+</html>
